@@ -1,9 +1,20 @@
-from datetime import datetime
+from datetime import datetime, timedelta, tzinfo
 
 __all__ = ("date", )
 
+
+class UTC(tzinfo):
+    def utcoffset(self, dt): return timedelta(0)
+    def dst(self, dt): return timedelta(0)
+
+
 def date(time):
-    now = datetime.now()
+    if time.tzinfo:
+        # calculate "now" in the timezone of the given time
+        now = datetime.utcnow().replace(tzinfo=UTC())
+        now = now.astimezone(time.tzinfo)
+    else:
+        now = datetime.now()
 
     if time > now:
         past = False

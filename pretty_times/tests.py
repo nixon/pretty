@@ -1,7 +1,7 @@
 import operator
 import unittest
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, tzinfo
 
 from pretty_times import pretty
 
@@ -29,6 +29,15 @@ class PrettyTimeTests(unittest.TestCase):
 
     def test_now(self):
         self.assertEqual("just now", self.apply_prettytime(datetime.today()))
+
+    def test_now_tz(self):
+        """test that non-naive datetimes are handled"""
+        class UTC(tzinfo):
+            def utcoffset(self, dt): return timedelta(0)
+            def dst(self, dt): return timedelta(0)
+
+        dt = datetime.utcnow().replace(tzinfo=UTC())
+        self.assertEqual("just now", self.apply_prettytime(dt))
 
     def test_ten_seconds_ago(self):
         self.assertEqual("10 seconds ago", self.get_past_result(seconds=10))
