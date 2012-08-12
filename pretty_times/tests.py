@@ -33,6 +33,9 @@ class PrettyTimeTests(unittest.TestCase):
     def test_now_tz(self):
         """test that non-naive datetimes are handled"""
         class UTC(tzinfo):
+            """based on example tzinfo classes from:
+            http://docs.python.org/release/2.5.2/lib/datetime-tzinfo.html
+            """
             def utcoffset(self, dt): return timedelta(0)
             def dst(self, dt): return timedelta(0)
 
