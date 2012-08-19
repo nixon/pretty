@@ -4,6 +4,9 @@ __all__ = ("date", )
 
 
 def date(time):
+    if not time:
+        return ""
+
     # calculate "now" in the timezone (if any) of the given time
     now = datetime.now(time.tzinfo)
 

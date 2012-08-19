@@ -27,6 +27,9 @@ class PrettyTimeTests(unittest.TestCase):
     def apply_prettytime(self, my_datetime):
         return pretty.date(my_datetime)
 
+    def test_none(self):
+        self.assertEqual("", self.apply_prettytime(None))
+
     def test_now(self):
         self.assertEqual("just now", self.apply_prettytime(datetime.today()))
 
